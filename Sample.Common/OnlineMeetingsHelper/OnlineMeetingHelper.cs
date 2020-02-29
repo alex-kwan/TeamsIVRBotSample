@@ -8,8 +8,7 @@ namespace Sample.Common.OnlineMeetings
     using System;
     using System.Threading.Tasks;
     using Microsoft.Graph;
-    using Microsoft.Graph.CoreSDK;
-    using Microsoft.Graph.StatefulClient.Authentication;
+    using Microsoft.Graph.Communications.Client.Authentication;
 
     /// <summary>
     /// Online meeting class to fetch meeting info based of meeting id (ex: vtckey).
@@ -37,13 +36,13 @@ namespace Sample.Common.OnlineMeetings
         /// <param name="meetingId">The meeting identifier.</param>
         /// <param name="correlationId">The correlation identifier.</param>
         /// <returns> The onlinemeeting. </returns>
-        public async Task<Microsoft.Graph.OnlineMeeting> GetOnlineMeetingAsync(string tenantId, string meetingId, Guid correlationId)
+        public async Task<OnlineMeeting> GetOnlineMeetingAsync(string tenantId, string meetingId, Guid correlationId)
         {
             IAuthenticationProvider GetAuthenticationProvider()
             {
                 return new DelegateAuthenticationProvider(async request =>
                 {
-                    request.Headers.Add(CoreConstants.Headers.ScenarioId, correlationId.ToString());
+                    // request.Headers.Add(CoreConstants.Headers.ScenarioId, correlationId.ToString());
                     request.Headers.Add(CoreConstants.Headers.ClientRequestId, Guid.NewGuid().ToString());
 
                     await this.requestAuthenticationProvider.AuthenticateOutboundRequestAsync(request, tenantId)
@@ -51,9 +50,8 @@ namespace Sample.Common.OnlineMeetings
                 });
             }
 
-            var statelessClient = new DefaultContainerClient(this.graphEndpointUri.AbsoluteUri, GetAuthenticationProvider());
+            var statelessClient = new CallsGraphServiceClient(this.graphEndpointUri.AbsoluteUri, GetAuthenticationProvider());
             var meetingRequest = statelessClient.App.OnlineMeetings[meetingId].Request();
-
             var meeting = await meetingRequest.GetAsync().ConfigureAwait(false);
 
             return meeting;

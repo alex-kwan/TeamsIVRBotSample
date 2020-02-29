@@ -9,14 +9,24 @@
 
   
 
-    <ItemGroup>
+  <ItemGroup>
         <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.6" />
-        <PackageReference Include="Microsoft.Graph.CoreSDK" version="1.0.0-prerelease.48" />
-        <PackageReference Include="Microsoft.Graph.StatefulClient" Version="1.0.0-prerelease.48" />
+        <PackageReference Include="Microsoft.Graph.Communications.Core.Calls" version="1.1.0-prerelease.2237" />
+        <PackageReference Include="Microsoft.Graph.Communications.Core" version="1.1.0-prerelease.2237" />
+        <PackageReference Include="Microsoft.Graph.Communications.Client" Version="1.1.0-prerelease.2237" />
         <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="3.19.8" />
         <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="5.2.4" />
+        <PackageReference Include="Microsoft.Graph.Beta" Version="0.12.0-preview" />
         <Reference Include="System.Data" />
         <Reference Include="System.Data.Entity" />
         <Reference Include="System.Net.Http" />
     </ItemGroup>
+
+  <Target Name="ChangeAliasesOfStrongNameAssemblies" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
+    <ItemGroup>
+      <ReferencePath Condition="'%(FileName)' == 'Microsoft.Graph.Beta'">
+        <Aliases>BetaLib</Aliases>
+      </ReferencePath>
+    </ItemGroup>
+  </Target>
 </Project>

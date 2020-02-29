@@ -5,6 +5,8 @@
 
 namespace Sample.Common.Meetings
 {
+    extern alias BetaLib;
+    using Beta = BetaLib.Microsoft.Graph;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -25,7 +27,7 @@ namespace Sample.Common.Meetings
         /// </summary>
         /// <param name="joinURL">Join URL from Team's meeting body.</param>
         /// <returns>Parsed data.</returns>
-        public static (ChatInfo, MeetingInfo) ParseJoinURL(string joinURL)
+        public static (Beta.ChatInfo, Beta.MeetingInfo) ParseJoinURL(string joinURL)
         {
             var decodedURL = WebUtility.UrlDecode(joinURL);
 
@@ -43,8 +45,8 @@ namespace Sample.Common.Meetings
             {
                 var ctxt = (Context)new DataContractJsonSerializer(typeof(Context)).ReadObject(stream);
                 return (
-                    new ChatInfo { ThreadId = match.Groups["thread"].Value, MessageId = match.Groups["message"].Value, ReplyChainMessageId = ctxt.MessageId },
-                    new OrganizerMeetingInfo { Organizer = new IdentitySet { User = new Identity { Id = ctxt.Oid, AdditionalData = new Dictionary<string, object> { { "TenantId", ctxt.Tid } } } } });
+                    new Beta.ChatInfo { ThreadId = match.Groups["thread"].Value, MessageId = match.Groups["message"].Value, ReplyChainMessageId = ctxt.MessageId },
+                    new Beta.OrganizerMeetingInfo { Organizer = new Beta.IdentitySet { User = new Beta.Identity { Id = ctxt.Oid, AdditionalData = new Dictionary<string, object> { { "TenantId", ctxt.Tid } } } } });
             }
         }
 

@@ -10,10 +10,10 @@
 
 namespace Sample.Common.Logging
 {
+    using Microsoft.Graph.Communications.Common.Telemetry;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http.ExceptionHandling;
-    using Microsoft.Graph.Core.Telemetry;
 
     /// <summary>
     /// The exception logger.

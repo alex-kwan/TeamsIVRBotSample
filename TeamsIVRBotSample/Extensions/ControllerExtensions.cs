@@ -1,7 +1,6 @@
 ﻿namespace Microsoft.AspNetCore.Mvc
 {
     using Microsoft.Extensions.Primitives;
-    using Microsoft.Graph.CoreSDK.Exceptions;
     using System;
     using System.Linq;
     using System.Net;

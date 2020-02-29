@@ -3,10 +3,11 @@
     using Microsoft.ApplicationInsights;
     using Microsoft.Extensions.Logging;
     using Microsoft.Graph;
-    using Microsoft.Graph.Calls;
+    using Microsoft.Graph.Communications.Calls;
+    using Microsoft.Graph.Communications.Client;
+    using Microsoft.Graph.Communications.Common.Telemetry;
+    using Microsoft.Graph.Communications.Resources;
     using Microsoft.Graph.Core;
-    using Microsoft.Graph.Core.Telemetry;
-    using Microsoft.Graph.StatefulClient;
     using Sample.Common.Authentication;
     using Sample.Common.Meetings;
     using Sample.Common.OnlineMeetings;
@@ -53,13 +54,12 @@
                 options.AppSecret,
                 this.graphLogger);
 
-            var builder = new StatefulClientBuilder("TeamsIVRBotSample", options.AppId, this.graphLogger);
+            var builder = new CommunicationsClientBuilder("TeamsIVRBotSample", options.AppId, this.graphLogger);
             builder.SetAuthenticationProvider(authProvider);
             builder.SetNotificationUrl(instanceNotificationUri);
             builder.SetServiceBaseUrl(options.PlaceCallEndpointUrl);
 
             this.Client = builder.Build();
-
 
             this.Client.Calls().OnIncoming += this.CallsOnIncoming;
             this.Client.Calls().OnUpdated += this.CallsOnUpdated;
@@ -73,7 +73,7 @@
         /// <value>
         /// The client.
         /// </value>
-        public IStatefulClient Client { get; }
+        public ICommunicationsClient Client { get; }
 
 
 

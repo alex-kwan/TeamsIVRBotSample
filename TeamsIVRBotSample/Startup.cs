@@ -11,7 +11,7 @@ namespace ThoughtStuff.TeamsSamples
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Graph.Core.Telemetry;
+    using Microsoft.Graph.Communications.Common.Telemetry;
     using ThoughtStuff.TeamsSamples.IVRBotSample;
 
     /// <summary>

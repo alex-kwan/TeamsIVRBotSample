@@ -3,12 +3,14 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.WebApiCompatShim;
     using Microsoft.Graph;
-    using Microsoft.Graph.Core.Telemetry;
+    using Microsoft.Graph.Communications.Calls;
+    using Microsoft.Graph.Communications.Client;
+    using Microsoft.Graph.Communications.Common.Telemetry;
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading.Tasks;
     using ThoughtStuff.TeamsSamples.IVRBotSample;
-
+    using CommunicationsClientExtensions = Microsoft.Graph.Communications.Client.CommunicationsClientExtensions;
     /// <summary>
     /// Entry point for handling call-related web hook requests from the stateful client
     /// </summary>
@@ -42,8 +44,8 @@
 
             this.bot.AddCallbackLog($"Process incoming request {requestUri}");
 
-            // Pass the incoming message to the Calling SDK, via the bot class.
-            var response = await this.bot.Client.ProcessNotificationAsync(requestMessage).ConfigureAwait(false);
+            // Pass the incoming message to the Calling SDK, via the bot class
+            var response = await CommunicationsClientExtensions.ProcessNotificationAsync(this.bot.Client, requestMessage).ConfigureAwait(false);
 
             // Convert the status code, content of HttpResponseMessage to IActionResult,
             // and copy the headers from response to HttpContext.Response.Headers.

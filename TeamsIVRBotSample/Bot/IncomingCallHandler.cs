@@ -1,10 +1,8 @@
 ﻿namespace ThoughtStuff.TeamsSamples.IVRBotSample
 {
     using Microsoft.Graph;
-    using Microsoft.Graph.Calls;
-    using Microsoft.Graph.Core.Telemetry;
-    using Microsoft.Graph.Core.Transport;
-    using Microsoft.Graph.StatefulClient;
+    using Microsoft.Graph.Communications.Calls;
+    using Microsoft.Graph.Communications.Resources;
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
@@ -126,11 +124,11 @@
                 await this.Call.PlayPromptAsync(new List<MediaPrompt> { ttsMediaPrompt }).ConfigureAwait(false);
 
 
-                this.Logger.Info("Started playing prompt:" + filename);
+                this.Logger.Log(System.Diagnostics.TraceLevel.Info, "Started playing prompt:" + filename);
             }
             catch (Exception ex)
             {
-                this.Logger.Error(ex, $"Failed to play notification prompt: " + filename);
+                this.Logger.Log(System.Diagnostics.TraceLevel.Info, $"Failed to play notification prompt: " + filename);
                 throw;
             }
 

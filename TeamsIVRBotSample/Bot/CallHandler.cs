@@ -1,13 +1,14 @@
 ﻿namespace ThoughtStuff.TeamsSamples.IVRBotSample
 {
+    extern alias BetaLib;
+    using Beta = BetaLib.Microsoft.Graph;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.Graph;
-    using Microsoft.Graph.Calls;
-    using Microsoft.Graph.Core.Telemetry;
-    using Microsoft.Graph.CoreSDK.Serialization;
-    using Microsoft.Graph.StatefulClient;
+    using Microsoft.Graph.Communications.Calls;
+    using Microsoft.Graph.Communications.Common.Telemetry;
+    using Microsoft.Graph.Communications.Resources;
 
     /// <summary>
     /// Base class for call handler for event handling, logging and cleanup.
@@ -60,7 +61,7 @@
         /// <summary>
         /// Gets the serializer
         /// </summary>
-        private static Serializer Serializer { get; } = new Serializer(pretty: true);
+        private static Serializer Serializer { get; } = new Serializer();
 
         /// <inheritdoc />
         public void Dispose()
@@ -89,7 +90,7 @@
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="args">The arguments</param>
-        protected virtual void ParticipantsOnUpdated(ICallParticipantCollection sender, CollectionEventArgs<ICallParticipant> args)
+        protected virtual void ParticipantsOnUpdated(IParticipantCollection sender, CollectionEventArgs<IParticipant> args)
         {
             // do nothing in base class.
         }
@@ -99,7 +100,7 @@
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="args">The arguments</param>
-        protected virtual void ParticipantOnUpdated(ICallParticipant sender, ResourceEventArgs<Participant> args)
+        protected virtual void ParticipantOnUpdated(IParticipant sender, ResourceEventArgs<Participant> args)
         {
             // do nothing in base class.
         }
@@ -122,7 +123,7 @@
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="args">The arguments</param>
-        private void OnParticipantUpdated(ICallParticipant sender, ResourceEventArgs<Participant> args)
+        private void OnParticipantUpdated(IParticipant sender, ResourceEventArgs<Participant> args)
         {
             var outcome = Serializer.SerializeObject(sender.Resource);
             this.OutcomesLogMostRecentFirst.AddFirst("Participant Updated:\n" + outcome);
@@ -135,7 +136,7 @@
         /// </summary>
         /// <param name="sender">The sender</param>
         /// <param name="args">The arguments</param>
-        private void OnParticipantsUpdated(ICallParticipantCollection sender, CollectionEventArgs<ICallParticipant> args)
+        private void OnParticipantsUpdated(IParticipantCollection sender, CollectionEventArgs<IParticipant> args)
         {
             foreach (var participant in args.AddedResources)
             {
