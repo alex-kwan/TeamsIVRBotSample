@@ -6,6 +6,7 @@
     using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Net;
     using System.Text;
@@ -124,11 +125,11 @@
                 await this.Call.PlayPromptAsync(new List<MediaPrompt> { ttsMediaPrompt }).ConfigureAwait(false);
 
 
-                this.Logger.Log(System.Diagnostics.TraceLevel.Info, "Started playing prompt:" + filename);
+                this.Logger.Log(TraceLevel.Info, "Started playing prompt:" + filename);
             }
             catch (Exception ex)
             {
-                this.Logger.Log(System.Diagnostics.TraceLevel.Info, $"Failed to play notification prompt: " + filename);
+                this.Logger.Log(TraceLevel.Info, $"Failed to play notification prompt: " + filename);
                 throw;
             }
 
